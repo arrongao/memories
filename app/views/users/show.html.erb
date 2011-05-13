@@ -1,0 +1,99 @@
+<% content_for :head do %>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+<style type="text/css">  
+  html{height:100%}  
+  body{height:100%;margin:0px;padding:0px}  
+  #container{height:100%}  
+  div#info {margin: 0px; position:fixed;z-index: 1; background-color: #fff; }
+</style>
+<script type="text/javascript">
+  var rails_token = "<%= form_authenticity_token %>";
+  var rails_form = function(rails_token, url) {
+    var form = document.createElement("form");
+    form.setAttribute("action", url);
+    form.setAttribute("method", "post");
+
+    var hidden = document.createElement("input");
+    hidden.setAttribute("name", "authenticity_token");
+    hidden.setAttribute("value", rails_token);
+    hidden.setAttribute("type", "hidden");
+    form.appendChild(hidden);
+
+    return form;
+  }
+
+  var create_form = function(e) {
+    var form = rails_form(rails_token, "/users/mcreate");
+
+    form.innerHTML += "地址:";
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("name", "memory[address]");
+    form.appendChild(input);
+
+    form.innerHTML += "<br />描述:";
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("name", "memory[content]");
+    form.appendChild(input);
+
+    form.innerHTML += "<br />时间:";
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("name", "memory[mdate]");
+    form.appendChild(input);
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", "memory[lon]");
+    input.setAttribute("value", e.point.lng);
+    form.appendChild(input);
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", "momory[lat]");
+    input.setAttribute("value", e.point.lat);
+    form.appendChild(input);
+
+    var submit = document.createElement("input");
+    input.setAttribute("type", "button");
+    input.setAttribute("value", "记忆");
+    input.addEventListener("click", function() {
+      alert('aaa');
+    });
+
+    var container = document.createElement("div");
+    container.appendChild(form);
+
+    return container.innerHTML;
+  }
+</script>
+<% end %>
+
+<div id="info">
+  <b>Name:</b><%=h @user.name %>&nbsp;<b>Age:</b><%=h @user.age %>&nbsp;<b>Gender:</b><%=h @user.gender %>
+  <a href="/login/logout">退出</a>
+</div>
+
+<div id="container"></div>
+<script type="text/javascript">  
+  var map = new BMap.Map("container");          // 创建地图实例  
+  map.enableScrollWheelZoom();  // 开启鼠标滚轮缩放  
+  map.enableKeyboard();         // 开启键盘控制  
+  map.enableContinuousZoom();   // 开启连续缩放效果  
+  map.enableInertialDragging(); // 开启惯性拖拽效果  
+  var point = new BMap.Point(116.404, 39.915);  // 创建点坐标 
+  map.centerAndZoom(point, 5);                 // 初始化地图，设置中心点坐标和地图级别  
+  map.addEventListener("click", function(e){  
+    var opts = {
+      width : 250,     // 信息窗口宽度
+      height: 150,     // 信息窗口高度
+    }
+    var infoWindow = new BMap.InfoWindow(create_form(e), opts);  // 创建信息窗口对象
+    map.openInfoWindow(infoWindow, e.point);      // 打开信息窗口
+  }); 
+</script>
+

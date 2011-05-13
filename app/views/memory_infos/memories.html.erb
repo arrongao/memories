@@ -1,0 +1,41 @@
+<% content_for :head do %>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+<script type="text/javascript" src="/javascripts/application.js"></script>
+<style type="text/css">  
+  html{height:100%}  
+  body{height:100%;margin:0px;padding:0px}  
+  #container{height:100%}  
+  div#info {margin: 0px; position:fixed;z-index: 1; background-color: #fff; }
+  a, a:hover, a:link a:visited {color: red;}
+</style>
+<script type="text/javascript">
+  var map = null;
+  var rails_token = "<%= form_authenticity_token %>";
+  var init_data = "<%= @json %>";
+  var opts = { width : 250, height: 105 }
+  Event.observe(window, 'load', function() {
+    map = new BMap.Map("container");          // 创建地图实例  
+    map.enableScrollWheelZoom();  // 开启鼠标滚轮缩放  
+    map.enableContinuousZoom();   // 开启连续缩放效果  
+    map.enableInertialDragging(); // 开启惯性拖拽效果  
+    var point = new BMap.Point(116.404, 39.915);  // 创建点坐标 
+    map.centerAndZoom(point, 5);                 // 初始化地图，设置中心点坐标和地图级别
+    play_memories(-1000, false);
+    add_memories_event();
+  });
+</script>
+<% end %>
+
+<div id="info">
+  <% if session[:user_id] %>
+    <b>Name:</b><%=h @user.name %>&nbsp;<b>Age:</b><%=h @user.age %>&nbsp;<b>Gender:</b><%=h @user.gender %>
+    <a href="javascript:void(0);" style="display: none" id="mem_btn">开启记忆</a>
+    <a href="javascript:void(0);" onclick="play_memories(2000, true)">播放</a>
+    <a href="javascript:void(0);" onclick="if (confirm('确认退出吗？')) location.href='/logout';">退出</a>
+  <% else %>
+    <a href="/login">登录/注册</a>
+  <% end %>
+</div>
+
+<div id="container"></div>
+

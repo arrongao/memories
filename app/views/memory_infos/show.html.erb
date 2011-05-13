@@ -1,0 +1,23 @@
+<p>
+  <b>User:</b>
+  <%=h @memory_info.user_id %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%=h @memory_info.address %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%=h @memory_info.content %>
+</p>
+
+<p>
+  <b>Mdate:</b>
+  <%=h @memory_info.mdate %>
+</p>
+
+
+<%= link_to 'Edit', edit_memory_info_path(@memory_info) %> |
+<%= link_to 'Back', memory_infos_path %>

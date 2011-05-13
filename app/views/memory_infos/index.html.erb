@@ -1,0 +1,26 @@
+<h1>Listing memory_infos</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Address</th>
+    <th>Content</th>
+    <th>Mdate</th>
+  </tr>
+
+<% for memory_info in @memory_infos %>
+  <tr>
+    <td><%=h memory_info.user_id %></td>
+    <td><%=h memory_info.address %></td>
+    <td><%=h memory_info.content %></td>
+    <td><%=h memory_info.mdate %></td>
+    <td><%= link_to 'Show', memory_info %></td>
+    <td><%= link_to 'Edit', edit_memory_info_path(memory_info) %></td>
+    <td><%= link_to 'Destroy', memory_info, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New memory_info', new_memory_info_path %>

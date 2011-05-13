@@ -1,0 +1,78 @@
+<% content_for :head do %>
+<%= javascript_include_tag "validation_cn", "effects" %>
+<%= stylesheet_link_tag "style_min" %>
+<style>
+  div#container {margin-left: 20px; margin-top: 5px; width: 100%; color: #aaa;}
+  div#title {margin-left: 20px; font-size: 15px; color: #666;}
+  div#title p {font-style: italic; line-height: 10px;}
+  td.split {border: 0px; width: 1px; background-color: #a1a1a1;}
+  td.item {text-align: right;}
+  p.notice {width: 100%; text-align: center; color: red;}
+</style>
+<% end %>
+
+<div id="title">
+  <p style="text-indent: 4em;">在这里，在地图上记录下我们的过去，不论美好、快乐，还是伤感...</p>
+  <p style="text-indent: 2em;">把它做为我们的财富，留给自己，留给家人，分享给每一位朋友...</p>
+  <p>当我们闲暇时，让我们静静的回味着过去, 憧憬着未来...</p>
+</div>
+<div id="container">
+<table>
+  <tr>
+    <td>
+      <%= form_tag "/login", :id => 'loginform' do %>
+        <p class="notice"><%= flash[:notice] %></p>
+        <p>用户名：<input type="text" name="user[username]" class="required" /></p>
+        <p>密&nbsp;&nbsp;&nbsp;码：<input type="password" name="user[passwd]" class="required" /></p>
+        <input type="submit" value="提交" />
+      <% end %>
+    </td>
+    <td class="split"></td>
+    <td>
+      <%= form_tag('/registe', :id => 'registeform') do %>
+        <table>
+          <tr>
+            <td class="item">邮箱：</td>
+            <td>
+              <input type="text" name="user[email]" class="required validate-email validate-ajax-/validate_email" />
+            </td>
+          </tr>
+          <tr>
+            <td class="item">昵称：</td>
+            <td><input type="text" name="user[name]" class="required validate-ajax-/validate_name" /></td>
+          </tr>
+          <tr>
+            <td class="item">年龄：</td>
+            <td><input type="text" name="user[age]" class="validate-number" /></td>
+          </tr>
+          <tr>
+            <td class="item">性别：</td>
+            <td>
+              <input type="radio" name="user[gender]" value="女" />女
+              <input type="radio" name="user[gender]" value="男" checked />男
+            </td>
+          </tr>
+          <tr>
+            <td class="item">密码：</td>
+            <td>
+              <input type="password" name="user[passwd]" id="password" class="required min-length-3 max-length-20">
+            </td>
+          </tr>
+          <tr>
+            <td class="item">确认密码：</td>
+            <td>
+              <input type="password" name="user[passwd_confirmation]" class="equals-password validation-failed">
+            </td>
+          </tr>
+          <tr><td colspan="2"><input type="submit" value="注册" /><input type="reset" value="重置" /></td></tr>
+        </table>
+      <% end %>
+    </td>
+  </tr>
+</table>
+</div>
+<script>
+  new Validation('loginform');
+  new Validation('registeform');
+</script>
+
