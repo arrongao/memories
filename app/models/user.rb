@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class User < ActiveRecord::Base
 
   validates_uniqueness_of :name, :message => "用户名已经被占用，换一下吧！"

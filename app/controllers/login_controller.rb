@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class LoginController < ApplicationController
 
   skip_before_filter :login_check, :only => ["index", "registe", "validate_email", "validate_name"]
@@ -10,10 +12,10 @@ class LoginController < ApplicationController
           session[:user_id] = @user.id
           redirect_to memories_url
         else
-          flash[:notice] = "用户名或密码错误"
+          flash[:notice] = ""
         end
       else 
-        flash[:notice] = "用户名或密码不能为空"
+        flash[:notice] = ""
       end
     end
   end
@@ -37,7 +39,7 @@ class LoginController < ApplicationController
   def validate_email
     if params[:user] && params[:user][:email]
       if User.exists?(:email => params[:user][:email])
-        render :layout => false, :text => "邮箱已经存在"
+        render :layout => false, :text => ""
         return
       end
     end
@@ -47,7 +49,7 @@ class LoginController < ApplicationController
   def validate_name
     if params[:user] && params[:user][:name]
       if User.exists?(:name => params[:user][:name])
-        render :layout => false, :text => "用户名已经存在"
+        render :layout => false, :text => ""
         return
       end
     end

@@ -2,6 +2,7 @@ Memories::Application.routes.draw do
 
   resources :memory_infos
 
+  match 'google', :controller => 'memory_infos', :action => 'google', :as => :google
   match 'memcreate', :controller => 'memory_infos', :action => 'mcreate', :as => :memcreate
   match 'memories', :controller => 'memory_infos', :action => 'memories', :as => :memories
   match 'memories_to_json', :controller => 'memory_infos', :action => 'memories_to_json', :as => :memories_to_json
